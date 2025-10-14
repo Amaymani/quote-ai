@@ -1,5 +1,5 @@
 export const materialInventory = [
-    // Original Items
+    // Original Items add quantity
     {"id": "mat-001", "name": "Acoustic Panel - Standard", "unit": "sq ft", "unit_cost": 1.81},
     {"id": "mat-002", "name": "Acoustic Panel - Premium Fabric", "unit": "sq ft", "unit_cost": 3.61},
     {"id": "mat-003", "name": "Cladding Sheet - Basic PVC", "unit": "sq ft", "unit_cost": 0.96},
