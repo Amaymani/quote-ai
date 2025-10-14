@@ -1,4 +1,4 @@
-import Quote from "@/lib/models/quotes";
+import  "@/lib/models/quotes";
 import User from "@/lib/models/user";
 import dbConnect from "@/config/mongo";
 import { NextResponse, type NextRequest } from "next/server";
