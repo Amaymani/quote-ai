@@ -140,7 +140,7 @@ export default function App() {
           {/* Sign in link */}
           <p className="mt-8 text-center text-sm text-gray-600">
             Don't have an account?{' '}
-            <a href="#" className="font-medium text-primary hover:text-primary/80">
+            <a href="register" className="font-medium text-primary hover:text-primary/80">
               Sign Up
             </a>
           </p>
