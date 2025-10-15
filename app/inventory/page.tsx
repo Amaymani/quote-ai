@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface InventoryItem {
   _id?: string;
@@ -22,6 +24,18 @@ export default function Inventory() {
     quantity: 1,
   });
   const [showForm, setShowForm] = useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status]);
+
+  if (status === "loading") {
+    return <div className="p-4 text-center text-gray-600">Checking authentication...</div>;
+  }
 
   const fetchInventory = async () => {
     try {

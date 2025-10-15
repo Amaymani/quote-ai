@@ -29,7 +29,7 @@ const features = [
 
 export function HowItWorks() {
   return (
-    <section className="w-full flex justify-center bg-white py-12 md:py-20 lg:py-24 mt-30">
+    <section className="w-full flex justify-center bg-white py-12 md:py-20 lg:py-24 my-30">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">

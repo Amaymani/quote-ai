@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse, type NextRequest } from "next/server";
-import { materialInventory, laborRates } from "@/lib/defaults";
+import { laborRates } from "@/lib/defaults";
 import dbConnect from "@/config/mongo";
 import Quote from "@/lib/models/quotes";
 import User from "@/lib/models/user";
+import {Inventory} from "@/lib/models/inventory";
 
 if (!process.env.GEMINI_API_KEY) {
   throw new Error("Environment is not laoding at server.");
@@ -11,7 +12,7 @@ if (!process.env.GEMINI_API_KEY) {
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
-  model: "gemini-2.5-pro",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     temperature: 0.3,
@@ -59,13 +60,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const prompt = `You are a construction specialist. You have to prepare the estimated list of items which is needed to complete the construction. Include the approximate labour charges too. Your given data would be used to create the quotation. Give your response only in JSON format without any formatting or extra text.
-The inventory is as follow:
-Materials(Use only those what is needed for the project):
-${JSON.stringify(materialInventory)}
+    const materialInventory = await Inventory.find({}, { name: 1, unit: 1, unit_cost: 1, _id:0 }).lean();
+    if (materialInventory.length === 0) {
+      return NextResponse.json(
+        { error: "No inventory items found. Please add items to inventory first." },
+        { status: 404 }
+      );
+    }
 
-Labor Rates:
-${JSON.stringify(laborRates)}
+    console.log("Material Inventory:", materialInventory);
+
+    const prompt = `You are a construction specialist. You have to prepare the estimated list of items which is needed to complete the construction. Include the approximate labour charges too. Your given data would be used to create the quotation. Give your response only in JSON format without any formatting or extra text.
+
+    Use the following guidelines:
+1. Use only the materials from the inventory list which are relevant to the project type and description.
+2. Calculate the quantity of each material based on the estimated area and project description.
 
 Project Information:
 Client Name: "${client_name}"
@@ -73,6 +82,16 @@ Project Title: "${project_title}"
 Project Type: "${project_type}"
 Estimated Area in sq ft: "${estimated_area}"
 Project Description: "${project_description}"
+
+The inventory is as follow:
+Materials(Use only those what is needed for the project):
+${JSON.stringify(materialInventory)}
+
+Labor Rates:
+${JSON.stringify(laborRates)}
+
+
+
 Expected response (Dont include anything else except estimated_items):
 {"estimated_items": [
 {

@@ -20,8 +20,6 @@ import { set } from "mongoose";
 import QuoteSkeleton from "@/components/LoadingComp";
 
 
-
-
 export interface ProjectInput {
   client_name: string;
   project_title: string;
@@ -106,150 +104,153 @@ export default function ProjectForm() {
       alert("An error occurred while generating the quote. Please try again.");
     }
   };
+return (
+  <div className="flex justify-center items-center min-h-screen bg-background/95 py-10 px-4 relative overflow-hidden">
 
-  return (
-    <div className="flex justify-center bg-background">
-      <Card className="shadow-medium border-border m-4 lg:w-[60%]">
-        <CardHeader className="bg-gradient-subtle">
-          <CardTitle className="text-xl font-semibold text-foreground flex items-center gap-2">
-            <FileText className="h-5 w-5 text-primary" />
-            Project Requirements
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="client_name"
-                  className="text-sm font-medium text-foreground"
-                >
-                  Client Name *
-                </Label>
-                <Input
-                  id="client_name"
-                  value={project.client_name}
-                  onChange={(e) =>
-                    setProject({ ...project, client_name: e.target.value })
-                  }
-                  placeholder="Enter client name"
-                  className="border-input focus:ring-primary focus:border-primary"
-                  required
-                />
-              </div>
+    {/* 🌈 Animated gradient background */}
+    <div className="absolute inset-0 -z-10 animate-gradient bg-gradient-to-r from-primary/5 via-transparent to-primary/10 blur-3xl opacity-70" />
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="project_title"
-                  className="text-sm font-medium text-foreground"
-                >
-                  Project Title *
-                </Label>
-                <Input
-                  id="project_title"
-                  value={project.project_title}
-                  onChange={(e) =>
-                    setProject({ ...project, project_title: e.target.value })
-                  }
-                  placeholder="Enter project title"
-                  className="border-input focus:ring-primary focus:border-primary"
-                  required
-                />
-              </div>
-            </div>
+    {/* Floating decorative orbs */}
+    <div className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-float-slow" />
+    <div className="absolute bottom-10 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-float-slower" />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="project_type"
-                  className="text-sm font-medium text-foreground"
-                >
-                  Project Type *
-                </Label>
-                <Select
-                  value={project.project_type}
-                  onValueChange={(value: any) =>
-                    setProject({ ...project, project_type: value })
-                  }
-                >
-                  <SelectTrigger className="border-input focus:ring-primary focus:border-primary">
-                    <SelectValue placeholder="Select project type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Acoustic">Acoustic</SelectItem>
-                    <SelectItem value="Cladding">Cladding</SelectItem>
-                    <SelectItem value="Soundproofing">Soundproofing</SelectItem>
-                    <SelectItem value="Weatherproofing / Waterproofing">
-                      Weatherproofing / Waterproofing
-                    </SelectItem>
-                    <SelectItem value="Fireproofing">Fireproofing</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+    <Card className="relative w-full max-w-3xl rounded-2xl border border-border/40 shadow-2xl bg-background/80 backdrop-blur-md overflow-hidden transition-all duration-700 hover:shadow-primary/20 hover:border-primary/30 animate-fadeInUp">
+      
+      {/* Header */}
+      <CardHeader className="bg-gradient-to-r from-primary/15 via-primary/5 to-transparent border-b border-border/30 py-8 px-8">
+        <CardTitle className="text-3xl font-semibold text-foreground flex items-center gap-4 tracking-wide">
+          <div className="p-3 rounded-lg bg-primary/10 animate-pulse-slow">
+            <FileText className="h-7 w-7 text-primary" />
+          </div>
+          Project Requirements
+        </CardTitle>
+      </CardHeader>
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="estimated_area"
-                  className="text-sm font-medium text-foreground"
-                >
-                  Estimated Area (sq ft) *
-                </Label>
-                <Input
-                  id="estimated_area"
-                  type="number"
-                  value={project.estimated_area || ""}
-                  onChange={(e) =>
-                    setProject({
-                      ...project,
-                      estimated_area: e.target.value
-                        ? parseInt(e.target.value)
-                        : undefined,
-                    })
-                  }
-                  placeholder="Enter estimated area in square feet"
-                  className="border-input focus:ring-primary focus:border-primary"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label
-                htmlFor="project_description"
-                className="text-sm font-medium text-foreground"
-              >
-                Project Description *
+      {/* Content */}
+      <CardContent className="p-10">
+        <form onSubmit={handleSubmit} className="space-y-10">
+          {/* Row 1 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="group relative animate-slideUp delay-[100ms]">
+              <Label htmlFor="client_name" className="block text-base font-medium text-foreground mb-3">
+                Client Name *
               </Label>
-              <div className="relative">
-                <Textarea
-                  id="project_description"
-                  value={project.project_description}
-                  onChange={(e) =>
-                    setProject({
-                      ...project,
-                      project_description: e.target.value,
-                    })
-                  }
-                  placeholder="Tell the AI about your project requirements and expectations..."
-                  className="min-h-[120px] border-input focus:ring-primary focus:border-primary pr-12"
-                  required
-                />
-              </div>
-              <div className="flex items-center justify-center mt-5 w-full">
-                <Button
-                  type="submit"
-                  // disabled={!isFormValid || isLoading}
-                  className=" bg-primary hover:opacity-90 text-primary-foreground w-60 font-medium py-2.5 transition-smooth shadow-medium hover:shadow-large"
-                >
-                  {isLoading ? "Generating Quote..." : "Generate Quote"}
-                  
-                </Button>
-              </div>
+              <Input
+                id="client_name"
+                value={project.client_name}
+                onChange={(e) =>
+                  setProject({ ...project, client_name: e.target.value })
+                }
+                placeholder="Enter client name"
+                className="peer border-input bg-background/70 backdrop-blur-sm rounded-lg px-4 py-3 text-[1rem] text-foreground placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:scale-[1.01]"
+                required
+              />
+              <div className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 peer-focus:w-full" />
             </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
-  );
+
+            <div className="group relative animate-slideUp delay-[200ms]">
+              <Label htmlFor="project_title" className="block text-base font-medium text-foreground mb-3">
+                Project Title *
+              </Label>
+              <Input
+                id="project_title"
+                value={project.project_title}
+                onChange={(e) =>
+                  setProject({ ...project, project_title: e.target.value })
+                }
+                placeholder="Enter project title"
+                className="peer border-input bg-background/70 backdrop-blur-sm rounded-lg px-4 py-3 text-[1rem] text-foreground placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:scale-[1.01]"
+                required
+              />
+              <div className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 peer-focus:w-full" />
+            </div>
+          </div>
+
+          {/* Row 2 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="group relative animate-slideUp delay-[300ms]">
+              <Label htmlFor="project_type" className="block text-base font-medium text-foreground mb-3">
+                Project Type *
+              </Label>
+              <Select
+                value={project.project_type}
+                onValueChange={(value: any) =>
+                  setProject({ ...project, project_type: value })
+                }
+              >
+                <SelectTrigger className="border-input bg-background/70 backdrop-blur-sm rounded-lg px-4 py-3 text-[1rem] text-foreground focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:scale-[1.01]">
+                  <SelectValue placeholder="Select project type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Acoustic">Acoustic</SelectItem>
+                  <SelectItem value="Cladding">Cladding</SelectItem>
+                  <SelectItem value="Soundproofing">Soundproofing</SelectItem>
+                  <SelectItem value="Weatherproofing / Waterproofing">
+                    Weatherproofing / Waterproofing
+                  </SelectItem>
+                  <SelectItem value="Fireproofing">Fireproofing</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="group relative animate-slideUp delay-[400ms]">
+              <Label htmlFor="estimated_area" className="block text-base font-medium text-foreground mb-3">
+                Estimated Area (sq ft) *
+              </Label>
+              <Input
+                id="estimated_area"
+                type="number"
+                value={project.estimated_area || ""}
+                onChange={(e) =>
+                  setProject({
+                    ...project,
+                    estimated_area: e.target.value
+                      ? parseInt(e.target.value)
+                      : undefined,
+                  })
+                }
+                placeholder="Enter estimated area"
+                className="peer border-input bg-background/70 backdrop-blur-sm rounded-lg px-4 py-3 text-[1rem] text-foreground placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:scale-[1.01]"
+                required
+              />
+              <div className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 peer-focus:w-full" />
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="animate-slideUp delay-[500ms]">
+            <Label htmlFor="project_description" className="text-base font-medium text-foreground mb-3 block">
+              Project Description *
+            </Label>
+            <Textarea
+              id="project_description"
+              value={project.project_description}
+              onChange={(e) =>
+                setProject({ ...project, project_description: e.target.value })
+              }
+              placeholder="Tell the AI about your project requirements..."
+              className="min-h-[160px] border-input bg-background/70 backdrop-blur-sm rounded-lg px-4 py-3 text-[1rem] text-foreground placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 hover:scale-[1.01]"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-center pt-6 animate-fadeIn delay-[700ms]">
+            <Button
+              type="submit"
+              className="relative overflow-hidden bg-primary text-primary-foreground font-semibold text-lg px-12 py-4 rounded-lg shadow-xl transition-all duration-500 hover:shadow-primary/40 hover:scale-[1.05]"
+            >
+              <span className="relative z-10 tracking-wide">
+                {isLoading ? "Generating Quote..." : "Generate Quote"}
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary to-primary/90 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  </div>
+);
+
 }

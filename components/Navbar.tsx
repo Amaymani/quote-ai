@@ -23,6 +23,9 @@ const Navbar = () => {
         <Link href={"/inventory"} className="p-2 px-4 m-2 hover:bg-secondary transition-colors duration-300 text-white font-medium hover:text-secondary-foreground rounded-full">
           Inventory
         </Link>
+        <Link href={"/call"} className="p-2 px-4 m-2 hover:bg-secondary transition-colors duration-300 text-white font-medium hover:text-secondary-foreground rounded-full">
+          Call
+        </Link>
         {status === "authenticated" ? (
           <button onClick={()=>{signOut()}} className="p-2 px-4 m-2 bg-secondary transition-colors duration-300 text-primary font-medium hover:text-secondary-foreground rounded-full">
             Sign Out
