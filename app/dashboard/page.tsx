@@ -59,7 +59,7 @@ const QuoteCard = ({ quote }: { quote: Quote }) => (
   </div>
 );
 
-// 2. New Component: A Skeleton Loader for a better loading experience
+
 const SkeletonCard = () => (
   <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-pulse">
     <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
@@ -69,11 +69,11 @@ const SkeletonCard = () => (
   </div>
 );
 
-// The main page component, now orchestrating the states
+
 const QuotesPage = () => {
   const { data: session, status } = useSession();
 
-  // 3. Improved State Management
+
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
