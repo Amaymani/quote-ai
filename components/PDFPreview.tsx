@@ -1,34 +1,19 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Info, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { QuotePDFDocument } from "@/components/QuotePDFDocument";
 
-interface EstimatedItem {
-  item: string;
-  quantity: number;
-  unit: string;
-  description: string;
-  unit_price_usd: number;
-  total_price_usd: number;
+// ✅ Import shared types
+import type { Quote } from "@/types/quote";
+
+interface PDFPreviewProps {
+  quote: Quote;
+  totalCost: number;
 }
 
-interface Quote {
-  _id: string;
-  ai_response: {
-    estimated_items: EstimatedItem[];
-  };
-}
-
-const PDFPreview: React.FC<{ quote: Quote; totalCost: number }> = ({
-  quote,
-  totalCost,
-}) => {
+const PDFPreview: React.FC<PDFPreviewProps> = ({ quote, totalCost }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -37,13 +22,13 @@ const PDFPreview: React.FC<{ quote: Quote; totalCost: number }> = ({
 
   return (
     <div>
-
       {isClient && quote && (
         <PDFDownloadLink
-          document={<QuotePDFDocument quote={quote} />}
+          // ✅ Pass totalCost if your QuotePDFDocument expects it
+          document={<QuotePDFDocument quote={quote} totalCost={totalCost} />}
           fileName={`Quotation-${quote._id}.pdf`}
         >
-          {({ blob, url, loading: pdfLoading, error }) => (
+          {({ loading: pdfLoading }) => (
             <button
               disabled={pdfLoading}
               className="flex items-center justify-center w-full px-4 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-secondary transition-colors hover:text-primary disabled:bg-indigo-300"
